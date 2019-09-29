@@ -1,26 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import Layout from "./components/layout/layout";
+import ProjectList from "./components/project/project-list";
+import MyProject from "./components/project/my-projects";
+import ProjectDashboard from "./components/project/project-dashboard";
 
-const App: React.FC = () => {
+const App: React.SFC = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+        <Layout>
+          <Switch>
+            <ProjectDashboard></ProjectDashboard>
+            {/* <Route path="/MyProject" exact component={MyProject} />
+            <Route path="/Dashboard" component={ProjectDashboard} /> */}
+          </Switch>
+        </Layout>
+      </BrowserRouter>
     </div>
   );
-}
+};
 
 export default App;
