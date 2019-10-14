@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[PROJECT_STATUS] (
+    [ID]           INT           IDENTITY (1, 1) NOT NULL,
+    [STATUS_COLOR] VARCHAR (100) NULL,
+    PRIMARY KEY CLUSTERED ([ID] ASC)
+);
+
