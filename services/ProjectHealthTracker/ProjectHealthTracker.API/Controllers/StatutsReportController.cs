@@ -24,7 +24,7 @@ namespace ProjectHealthTracker.API.Controllers
 
         [HttpGet("all")]
         public async Task<IActionResult> GetAllStatusReports()
-        {
+        {   
             var statusReports = await _context.StatusReports
                                 .Include(p=>p.Project).ThenInclude(c=>c.Client)
                                 .OrderByDescending(p => p.SubmittedDate)

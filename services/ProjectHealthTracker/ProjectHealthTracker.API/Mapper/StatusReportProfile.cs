@@ -12,13 +12,23 @@ namespace ProjectHealthTracker.API.Mapper
     {
         public StatusReportProfile()
         {
+            CreateMap<Project, ProjectDto>()   
+                .ForMember(dest => dest.Id, src => src.MapFrom(s => s.Id))
+                .ForMember(dest => dest.ProjectName, src => src.MapFrom(s => s.Name));
+
+            CreateMap<Client, ClientDto>()
+               .ForMember(dest => dest.Id, src => src.MapFrom(s => s.Id))
+               .ForMember(dest => dest.ClientName, src => src.MapFrom(s => s.Name));
+             
             CreateMap<StatusReport, ProjectStatusDto>()
-                .ForMember(dest => dest.ClientId, src => src.MapFrom(s => s.Project.ClientId))
-                .ForMember(dest => dest.ProjectId, src => src.MapFrom(s => s.ProjectId))
-                .ForMember(dest => dest.ClientName, src => src.MapFrom(s => s.Project.Client.Name))
-                .ForMember(dest => dest.ProjectName, src => src.MapFrom(s => s.Project.Name))
-                .ForMember(dest => dest.OverallStatus, src => src.MapFrom(s => s.OverallStatus))
-                .ForMember(dest => dest.SubmittedDate, src => src.MapFrom(s => s.SubmittedDate));
+               .ForMember(dest => dest.Id, src => src.MapFrom(s => s.Id))
+               .ForMember(dest => dest.OverallStatus, src => src.MapFrom(s => s.OverallStatus))
+               .ForMember(dest => dest.SubmittedDate, src => src.MapFrom(s => s.SubmittedDate))
+              .ForMember(dest => dest.Project, src => src.MapFrom(s => s.Project))
+              .ForMember(dest => dest.Client, src => src.MapFrom(s => s.Project.Client));
+         
+            // .ForMember(dest=> dest.Project, src => src.MapFrom(p=> Mapper.Map<StatusReport, ProjectDto>(p)));
+
 
             CreateMap<StatusReportDto, StatusReport>()
                 .ForMember(dest => dest.ProjectId, src => src.MapFrom(s => s.ProjectId))

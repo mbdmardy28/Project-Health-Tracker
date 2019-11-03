@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProjectHealthTracker.API.Data;
-using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.Swagger;  
 
 namespace ProjectHealthTracker.API
 {
@@ -26,6 +26,12 @@ namespace ProjectHealthTracker.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Startup));
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
 
             services.AddMvc();
 
@@ -46,6 +52,7 @@ namespace ProjectHealthTracker.API
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors("MyPolicy");
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();

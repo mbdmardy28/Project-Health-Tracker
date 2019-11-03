@@ -6,12 +6,16 @@ import * as serviceWorker from "./serviceWorker";
 import { ThemeProvider } from "@material-ui/styles";
 import theme from "./components/layout/theme";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { Provider } from "react-redux";
+import store from "./redux/store";
+
 ReactDOM.render(
-  <ThemeProvider theme={theme}>
-    {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-    <CssBaseline />
-    <App />
-  </ThemeProvider>,
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <App />
+    </ThemeProvider>
+  </Provider>,
   document.getElementById("root")
 );
 

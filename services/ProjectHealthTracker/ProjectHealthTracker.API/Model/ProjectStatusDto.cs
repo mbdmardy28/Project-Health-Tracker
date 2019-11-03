@@ -7,11 +7,11 @@ namespace ProjectHealthTracker.API.Model
 {
     public class ProjectStatusDto
     {
-        public int ClientId { get; set; }
-        public string ClientName { get; set; }
-        public int ProjectId { get; set; }
-        public string ProjectName { get; set; }
+        public int Id { get; set; }
         public string OverallStatus { get; set; }
         public DateTime SubmittedDate { get; set; }
+        public ClientDto Client { get; set; }
+        public ProjectDto Project { get; set; }
     }
 }
+    
