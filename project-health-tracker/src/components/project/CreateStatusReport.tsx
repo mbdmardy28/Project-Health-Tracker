@@ -13,27 +13,18 @@ import {
       } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import ProjectTagList from "./project-tag-list";
+import { useState } from 'react';
 
 
 
-const ProjectCreateStatus = () => {
+const CreateStatusReport = () => {
     const tags: string[] = [];
-    const projectNames = [
-        { value: 'Taxation', label: 'Taxation'}, 
-        { value: 'Realty', label: 'Realty'},
-        { value: 'CRM', label: 'CRM'},
-        { value: 'Backlog', label: 'Backlog'}
-    ];
-    const status = [
-        { value: 'green', label: 'Good'}, 
-        { value: 'yellow', label: 'Fair'},
-        { value: 'red', label: 'Poor'}
-    ];
-    const [ProjectTags, setProjectTags] = React.useState(tags);
-    const [selectedDate, setSelectedDate] = React.useState<Date | null>(
+ 
+    const [ProjectTags, setProjectTags] = useState(tags);
+    const [selectedDate, setSelectedDate] = useState<Date | null>(
         new Date('2014-08-18T21:11:54'),
     );
-    const [values, setValues] = React.useState({
+    const [values, setValues] = useState({
         projectName: '',
         overallStatus: '',
         budget: '',
@@ -51,6 +42,14 @@ const ProjectCreateStatus = () => {
         setSelectedDate(date);
     };
     
+    const saveReport = () => {
+
+    };
+
+    React.useEffect(() => {
+        console.log("values",values);
+        console.log("date",selectedDate);
+    })
     return (
         <Container>
             <FormControl style={{width: '100%', padding: '30px 0px'}}>
@@ -261,7 +260,7 @@ const ProjectCreateStatus = () => {
                         </Button>
                     </Grid>
                     <Grid item xs={2}>
-                        <Button fullWidth variant="contained" color="primary" >
+                        <Button fullWidth variant="contained" color="primary"  onClick={saveReport}>
                             SUBMIT
                         </Button>
                     </Grid>
@@ -271,4 +270,16 @@ const ProjectCreateStatus = () => {
     );
   }
 
-  export default ProjectCreateStatus;
+  export default CreateStatusReport;
+
+const projectNames = [
+    { value: 'Taxation', label: 'Taxation'}, 
+    { value: 'Realty', label: 'Realty'},
+    { value: 'CRM', label: 'CRM'},
+    { value: 'Backlog', label: 'Backlog'}
+];
+const status = [
+    { value: 'green', label: 'Good'}, 
+    { value: 'yellow', label: 'Fair'},
+    { value: 'red', label: 'Poor'}
+];

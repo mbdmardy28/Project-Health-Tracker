@@ -10,6 +10,7 @@ export default function statusReportReducer(state:EntityState<StatusReport> = {}
       switch(action.type) {
         case UPDATE_REPORTS:
           return merge({},state, action.payload);
+      
         default:
           return state;
       }    

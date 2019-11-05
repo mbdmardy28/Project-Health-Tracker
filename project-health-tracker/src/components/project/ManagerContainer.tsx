@@ -7,9 +7,11 @@ import {
   Button,
   TextField
 } from "@material-ui/core";
-import ProjectList from "./project-list";
+import StatusReportsList from "./StatusReportsList";
+import { useFetchStatusReport } from "./shared/statusReportHooks";
 
-const ProjectDashboard: React.FC = () => {
+const ManagerContainer: React.FC = () => {
+  const statusReportsData = useFetchStatusReport();
   return (
     <Box component="span">
       <Grid container justify="space-between">
@@ -39,10 +41,10 @@ const ProjectDashboard: React.FC = () => {
       </Grid>
       <Grid container>
         <Grid item xs={12}>
-          <ProjectList></ProjectList>
+          <StatusReportsList reports={statusReportsData}></StatusReportsList>
         </Grid>
       </Grid>
     </Box>
   );
 };
-export default ProjectDashboard;
+export default ManagerContainer;

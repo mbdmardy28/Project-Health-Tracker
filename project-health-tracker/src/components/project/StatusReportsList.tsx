@@ -8,16 +8,17 @@ import {
   TablePagination
 } from "@material-ui/core";
 import { StatusReportQuery } from "../../common/model/StatusReportQuery";
+import { useState } from "react";
 
 
 type Props = {
   reports: StatusReportQuery[]
 }
 
-const ProjectList: React.FC<Props> = props => {
+const StatusReportsList: React.FC<Props> = props => {
 
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -121,7 +122,7 @@ const ProjectList: React.FC<Props> = props => {
     </>
   );  
 };
-export default ProjectList;
+export default StatusReportsList;
 
 interface Column {
   id:

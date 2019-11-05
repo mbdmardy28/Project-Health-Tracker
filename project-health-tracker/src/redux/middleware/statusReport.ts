@@ -1,7 +1,7 @@
 import { Middleware, MiddlewareAPI } from "redux";
 import { normalize } from 'normalizr';
 
-import {  GET_REPORT, FETCH_REPORT_SUCCESS, updateStatusReports, FETCH_REPORT_ERROR } from "../actions/statusReport";
+import {  GET_REPORT, FETCH_REPORT_SUCCESS, updateStatusReports, FETCH_REPORT_ERROR, ADD_STATUS_REPORT, ADD_STATUS_REPORT_SUCCESS, ADD_STATUS_REPORT_FAIL } from "../actions/statusReport";
 import { hideSpinner, showSpinner } from "../actions/ui";
 import { statusReportList } from '../actions/schema';
 import { updateClients } from "../actions/client";
@@ -19,6 +19,7 @@ export const getStatusReport: Middleware = ({dispatch }: MiddlewareAPI) => next 
 
     if(action.type === GET_REPORT) {
       dispatch(apiRequest("GET", URL, null, FETCH_REPORT_SUCCESS, FETCH_REPORT_ERROR))
+
       dispatch(showSpinner());
     }
 }
@@ -38,5 +39,12 @@ export const processReportsCollection: Middleware = ({dispatch}: MiddlewareAPI) 
   }  
 }
 
+export const addStatusReport: Middleware = ({dispatch}: MiddlewareAPI) => next => action => {
+  next(action);
+  if(action.type === ADD_STATUS_REPORT) {
+    dispatch(apiRequest("POST", URL, action.payload, ADD_STATUS_REPORT_SUCCESS, ADD_STATUS_REPORT_FAIL))
+  }
+}
 
-export const statusReportMiddleware = [getStatusReport, processReportsCollection];
+
+export const statusReportMiddleware = [getStatusReport, processReportsCollection, addStatusReport];
