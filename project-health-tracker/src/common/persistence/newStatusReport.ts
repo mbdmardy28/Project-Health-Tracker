@@ -1,12 +1,7 @@
-export interface StatusReport {
-    id:number
-    submittedDate: string
+export interface NewStatusReport {
     overallStatus:string
     weekEnding: Date
-    client: number
-    project: number
-    user: string,
-    subTeam: string,
+    projectId: number
     budgetStatus: string,
     scheduleStatus: string,
     scopeStatus: string,
@@ -15,4 +10,5 @@ export interface StatusReport {
     executiveSummary: string,
     issues: string,
     risks: string
+    tags: string[]
 }

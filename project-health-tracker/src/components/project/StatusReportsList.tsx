@@ -7,7 +7,7 @@ import {
   TableBody,
   TablePagination
 } from "@material-ui/core";
-import { StatusReportQuery } from "../../common/model/StatusReportQuery";
+import { StatusReportQuery } from "../../common/persistence/statusReportQuery";
 import { useState } from "react";
 
 

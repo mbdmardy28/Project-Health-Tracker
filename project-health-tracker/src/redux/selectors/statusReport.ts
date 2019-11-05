@@ -4,7 +4,7 @@ import { rootState, EntityState } from "../states/genericState";
 import { StatusReport } from "../../common/model/statusreport";
 import { Client } from "../../common/model/client";
 import { Project } from "../../common/model/project";
-import { StatusReportQuery } from "../../common/model/StatusReportQuery";
+import { StatusReportQuery } from "../../common/persistence/statusReportQuery";
 
 const projects = (state: rootState) => state.entities.projects;
 const clients = (state:rootState) => state.entities.clients;

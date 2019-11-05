@@ -1,11 +1,6 @@
 import * as React from "react";
 import { Grid } from "@material-ui/core";
-
-enum Status {
-    GOOD = 'green',
-    FAIR = 'yellow',
-    POOR = 'red'
-}
+import { Status } from "../../common/Status";
 
 type ProjectComponent = {
     name: string;

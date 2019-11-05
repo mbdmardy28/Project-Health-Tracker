@@ -1,5 +1,6 @@
 import { StatusReport } from "../../common/model/statusreport";
 import { Action, ActionCreator } from "redux";
+import { NewStatusReport } from "../../common/persistence/newStatusReport";
 
 export const GET_REPORT = "[STATUSREPORT] Get Status Reports";
 export const FETCH_REPORT_SUCCESS =  "[STATUSREPORT] Fetch success";
@@ -27,4 +28,4 @@ export const getStatusReport  = (): GetStatusReportAction => ({ type: GET_REPORT
 
 export const updateStatusReports = (data: StatusReport[]) => ({type: UPDATE_REPORTS, payload: data });
 
-export const addStatusReport = (data: StatusReport) => ({type: ADD_STATUS_REPORT, payload: data });
+export const addStatusReport = (data: NewStatusReport) => ({type: ADD_STATUS_REPORT, payload: data });

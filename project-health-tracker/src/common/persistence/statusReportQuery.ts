@@ -1,5 +1,5 @@
-import { Client } from "../../common/model/client";
-import { Project } from "../../common/model/project";
+import { Client } from "../model/client";
+import { Project } from "../model/project";
 
 export interface StatusReportQuery {
     id:number

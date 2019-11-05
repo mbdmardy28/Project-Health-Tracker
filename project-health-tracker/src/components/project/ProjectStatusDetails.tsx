@@ -3,9 +3,9 @@ import {
     Box,
     Typography,
   } from "@material-ui/core";
-import ProjectComponentsStatus from "./project-components-status";
+import ProjectComponentsStatus from "./ProjectComponentsStatus";
 import { ProjectStatusDetail } from "../../common";
-import ProjectTagList from "./project-tag-list";
+import ProjectTagList from "./ProjectTagList";
 
 
 

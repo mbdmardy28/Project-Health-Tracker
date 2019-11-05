@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { StatusReportQuery } from "../../../common/model/StatusReportQuery";
+import { StatusReportQuery } from "../../../common/persistence/statusReportQuery";
 import { getStatusReport } from "../../../redux/actions/statusReport";
 import { getStatusReportSelector } from "../../../redux/selectors/statusReport";
 

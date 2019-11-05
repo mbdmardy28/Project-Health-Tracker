@@ -12,8 +12,11 @@ import {
         KeyboardDatePicker,
       } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import ProjectTagList from "./project-tag-list";
+import ProjectTagList from "./ProjectTagList";
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addStatusReport } from '../../redux/actions/statusReport';
+import { NewStatusReport } from '../../common/persistence/newStatusReport';
 
 
 
@@ -25,13 +28,16 @@ const CreateStatusReport = () => {
         new Date('2014-08-18T21:11:54'),
     );
     const [values, setValues] = useState({
-        projectName: '',
+        projectName: 0,
         overallStatus: '',
         budget: '',
         schedule: '',
         scope: '',
         deliveryQuality: '',
-        clientResources: ''
+        clientResources: '',
+        executiveSummary: '',
+        issues:'',
+        risk: ''
     });
 
     const handleChange = (name: string) => (event: { target: { value: any; }; }) => {
@@ -42,14 +48,25 @@ const CreateStatusReport = () => {
         setSelectedDate(date);
     };
     
+    const dispatch = useDispatch();
     const saveReport = () => {
-
+        const report: NewStatusReport =  {
+           projectId: 0,
+           overallStatus: values.overallStatus,
+           weekEnding: selectedDate as Date,
+           budgetStatus: values.budget,
+           scheduleStatus: values.schedule,
+           scopeStatus: values.scope,
+           deliveryQualityStatus: values.deliveryQuality,
+           clientResourcesStatus: values.clientResources,
+           executiveSummary: values.executiveSummary,
+           issues: values.issues,
+           risks: values.risk,
+           tags: ProjectTags
+       };
+      dispatch(addStatusReport(report))
     };
 
-    React.useEffect(() => {
-        console.log("values",values);
-        console.log("date",selectedDate);
-    })
     return (
         <Container>
             <FormControl style={{width: '100%', padding: '30px 0px'}}>
@@ -121,6 +138,7 @@ const CreateStatusReport = () => {
                             rows="4"
                             margin="normal"
                             variant="outlined"
+                            onChange={handleChange('executiveSummary')}
                         />
                     </Grid>
                 </Grid>
@@ -235,6 +253,7 @@ const CreateStatusReport = () => {
                             rows="4"
                             margin="normal"
                             variant="outlined"
+                            onChange={handleChange('issues')}
                         />
                     </Grid>
                 </Grid>
@@ -247,6 +266,7 @@ const CreateStatusReport = () => {
                             rows="4"
                             margin="normal"
                             variant="outlined"
+                            onChange={handleChange('risks')}
                         />
                     </Grid>
                 </Grid>

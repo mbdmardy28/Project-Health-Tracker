@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Box, Typography, TextField } from "@material-ui/core";
-import ProjectTagItem from "./project-tag-item";
-import IntegrationDownshift from "./project-tag-input";
+import ProjectTagItem from "./ProjectTagItem";
+import IntegrationDownshift from "./ProjectTagInput";
 
 const ProjectTagList = (props: any) => {
 
