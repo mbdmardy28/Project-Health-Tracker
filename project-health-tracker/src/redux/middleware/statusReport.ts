@@ -27,8 +27,8 @@ export const processReportsCollection: Middleware = ({dispatch}: MiddlewareAPI) 
   next(action);
 
   if(action.type === FETCH_REPORT_SUCCESS) {
-    console.log(action.payload);
-    console.log("Normalize");
+      console.log(action.payload);
+      console.log("Normalize");
     const normalizedData = normalize(action.payload, statusReportList);
     console.log(normalizedData);
     dispatch(updateClients(normalizedData.entities.clients as Client[]));

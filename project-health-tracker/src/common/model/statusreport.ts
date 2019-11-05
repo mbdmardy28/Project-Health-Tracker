@@ -5,4 +5,6 @@ export interface StatusReport {
     weekEnding: Date
     client: number
     project: number
+    user: string,
+    subTeam: string
 }

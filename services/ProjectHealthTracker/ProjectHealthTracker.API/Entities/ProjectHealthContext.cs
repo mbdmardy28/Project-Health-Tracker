@@ -22,6 +22,7 @@ namespace ProjectHealthTracker.API.Data
         public DbSet<StatusReport> StatusReports { get; set; }
         public DbSet<StatusReportTag> StatusReportTags { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<User> Users { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.RemovePluralizingTableNameConvention();

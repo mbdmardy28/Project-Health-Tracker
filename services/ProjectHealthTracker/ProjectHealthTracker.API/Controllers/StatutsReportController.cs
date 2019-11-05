@@ -27,8 +27,11 @@ namespace ProjectHealthTracker.API.Controllers
         {   
             var statusReports = await _context.StatusReports
                                 .Include(p=>p.Project).ThenInclude(c=>c.Client)
+                                .Include(p=>p.User)
                                 .OrderByDescending(p => p.SubmittedDate)
                                 .ToListAsync();
+
+  
 
             var projectStatusReports = _mapper.Map<IEnumerable<ProjectStatusDto>>(statusReports);
 

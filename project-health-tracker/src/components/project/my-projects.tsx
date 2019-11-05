@@ -3,23 +3,18 @@ import { Grid, Box, Toolbar, Typography, Button } from "@material-ui/core";
 import ProjectList from "./project-list";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getStatusReport } from "../../redux/actions/statusReport";
 import { getStatusReportSelector } from "../../redux/selectors/statusReport";
-
+import { StatusReportQuery } from "../../common/model/StatusReportQuery";
 const MyProject: React.FC = () => {
-  const dispatch = useDispatch();
-useEffect(()=>{
-  alert("hello");
-  dispatch(getStatusReport());
-},[dispatch]) 
 
-const reportData = useReportData();
-const handleChangeDate = (e: React.FormEvent) => {
-  e.preventDefault();
+  const reportData =  useFetchStatusReport();
 
-  console.log("selectedData",reportData);
-};
+  const handleChangeDate = (e: React.FormEvent) => {
+    e.preventDefault();
+  };
+
   return (
     <Box component="span">
       <Grid container justify="space-between">
@@ -39,8 +34,8 @@ const handleChangeDate = (e: React.FormEvent) => {
           </Toolbar>
         </Grid>
         <br></br>
-        <Grid item xs={12}>
-          <ProjectList></ProjectList>
+        <Grid item xs={12}>   
+           <ProjectList reports={reportData}></ProjectList>
         </Grid>
       </Grid>
     </Box>
@@ -48,4 +43,19 @@ const handleChangeDate = (e: React.FormEvent) => {
 };
 export default MyProject;
 
-const useReportData = () => useSelector(getStatusReportSelector); 
+const useStatusReportsData = () => useSelector(getStatusReportSelector); 
+
+const useFetchStatusReport = (): StatusReportQuery[] => {
+  const dispatch = useDispatch();
+  const reportData = useStatusReportsData();
+
+  useEffect(()=>{
+    dispatch(getStatusReport());
+  },[dispatch]) 
+
+  console.log(reportData);
+  return reportData;
+
+};
+
+const initialStatusReports = (): StatusReportQuery[] =>[];

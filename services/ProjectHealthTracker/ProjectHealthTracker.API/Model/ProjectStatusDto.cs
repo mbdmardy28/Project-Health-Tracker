@@ -12,6 +12,9 @@ namespace ProjectHealthTracker.API.Model
         public DateTime SubmittedDate { get; set; }
         public ClientDto Client { get; set; }
         public ProjectDto Project { get; set; }
+        public string User { get; set; }
+        public string WeekEnding { get; set; }
+        public string SubTeam { get; set; }
     }
 }
     

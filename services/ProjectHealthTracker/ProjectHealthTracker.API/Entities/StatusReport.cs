@@ -15,6 +15,8 @@ namespace ProjectHealthTracker.API.Entities
 
         public int ProjectId { get; set; }
 
+        public int UserId { get; set; }
+
         [MaxLength(50)]
         public string SubTeam { get; set; }
 
@@ -51,6 +53,8 @@ namespace ProjectHealthTracker.API.Entities
         public string SubmittedBy { get; set; }
 
         public Project Project { get; set; }
+
+        public User User { get; set; }
         public List<StatusReportTag> StatusReportTags { get; set; }
     }
 }

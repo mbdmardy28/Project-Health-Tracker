@@ -9,5 +9,6 @@ namespace ProjectHealthTracker.API.Model
     {
         public int Id { get; set; }
         public string ClientName { get; set; }
+        public string location { get; set; }
     }
 }

@@ -22,6 +22,9 @@ namespace ProjectHealthTracker.API.Mapper
              
             CreateMap<StatusReport, ProjectStatusDto>()
                .ForMember(dest => dest.Id, src => src.MapFrom(s => s.Id))
+               .ForMember(dest => dest.WeekEnding, src => src.MapFrom(s => s.WeekEnding))
+               .ForMember(dest => dest.User, src => src.MapFrom(s => s.User.Name))
+               .ForMember(dest => dest.SubTeam, src => src.MapFrom(s => s.SubTeam))
                .ForMember(dest => dest.OverallStatus, src => src.MapFrom(s => s.OverallStatus))
                .ForMember(dest => dest.SubmittedDate, src => src.MapFrom(s => s.SubmittedDate))
               .ForMember(dest => dest.Project, src => src.MapFrom(s => s.Project))
@@ -59,6 +62,8 @@ namespace ProjectHealthTracker.API.Mapper
                 .ForMember(dest => dest.Issues, src => src.MapFrom(s => s.Issues))
                 .ForMember(dest => dest.Risks, src => src.MapFrom(s => s.Risks))
                 .ForMember(dest => dest.Issues, src => src.MapFrom(s => s.Issues));
+
+
 
 
         }

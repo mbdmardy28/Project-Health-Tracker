@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-  makeStyles,
   Table,
   TableHead,
   TableRow,
@@ -8,126 +7,15 @@ import {
   TableBody,
   TablePagination
 } from "@material-ui/core";
+import { StatusReportQuery } from "../../common/model/StatusReportQuery";
 
-interface Column {
-  id:
-    | "ProjectName"
-    | "Client"
-    | "Team"
-    | "Location"
-    | "WeekEnding"
-    | "OffshoreTeamLead"
-    | "Status";
-  label: string;
-  minWidth?: number;
-  isDisplay: boolean;
-  align?: "right";
-  format?: (value: Date) => string;
+
+type Props = {
+  reports: StatusReportQuery[]
 }
 
-const columns: Column[] = [
-  {
-    id: "ProjectName",
-    label: "Project\u00a0Name",
-    minWidth: 200,
-    isDisplay: true
-  },
-  { id: "Client", label: "Client", minWidth: 100, isDisplay: true },
-  { id: "Team", label: "Team", minWidth: 100, isDisplay: false },
-  { id: "Location", label: "Location", minWidth: 100, isDisplay: false },
-  {
-    id: "WeekEnding",
-    label: "Week\u00a0Ending",
-    minWidth: 120,
-    align: "right",
-    isDisplay: true,
-    format: (value: Date) => value.toString()
-  },
-  {
-    id: "OffshoreTeamLead",
-    label: "Offhore\u00a0Team\u00a0Lead",
-    minWidth: 120,
-    align: "right",
-    isDisplay: true
-  },
-  {
-    id: "Status",
-    label: "Overall Status",
-    minWidth: 120,
-    align: "right",
-    isDisplay: true
-  }
-];
+const ProjectList: React.FC<Props> = props => {
 
-interface Data {
-  ProjectName: string;
-  Client: string;
-  Team: string;
-  Location: string;
-  WeekEnding: Date;
-  OffshoreTeamLead: string;
-  Status: string;
-}
-
-function createData(
-  ProjectName: string,
-  Client: string,
-  Team: string,
-  Location: string,
-  WeekEnding: Date,
-  OffshoreTeamLead: string,
-  Status: string
-): Data {
-  return {
-    ProjectName,
-    Client,
-    Team,
-    Location,
-    WeekEnding,
-    OffshoreTeamLead,
-    Status
-  };
-}
-let date: Date = new Date();
-const rows = [
-  createData(
-    "Taxation",
-    "Ernest & Young",
-    "Team Blue",
-    "Chicago",
-    date,
-    "Mark Coro",
-    "Red"
-  ),
-  createData(
-    "Realty",
-    "Google",
-    "Team Blue",
-    "Chicago",
-    date,
-    "Mark Coro",
-    "Yellow"
-  ),
-  createData("CRM", "BCG", "Team Blue", "Chicago", date, "Mark Coro", "Red"),
-  createData(
-    "Backlog",
-    "Merchants Fleet",
-    "Team Blue",
-    "Chicago",
-    date,
-    "Mily Opena",
-    "Green"
-  )
-];
-
-const useStyles = makeStyles({
-  root: {
-    width: "100%"
-  }
-});
-
-const ProjectList: React.FC = () => {
-  const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -161,44 +49,54 @@ const ProjectList: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
+            {props.reports
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map(row => {
+              .map((row, key)=> {
                 return (
                   <TableRow
                     hover
                     role="checkbox"
                     tabIndex={-1}
-                    key={row.Client}
+                    key={key}
                   >
                     {columns
                       .filter(x => x.isDisplay == true)
-                      .map(column => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === "object" ? (
-                              column.format(value)
-                            ) : column.id === "Status" ? (
-                              <span
-                                className={`${value
-                                  .toString()
-                                  .toLowerCase()}-circle`}
-                              ></span>
-                            ) : (
-                              value
-                            )}
-                            <br />
-                            <sub className="subText">
-                              {column.id == "ProjectName"
-                                ? row["Team"]
-                                : column.id == "Client"
-                                ? row["Location"]
-                                : ""}
-                            </sub>
-                          </TableCell>
-                        );
-                      })}
+                        .map(column => {
+                          
+                          console.log("column", column)
+                          return (
+                            <TableCell key={column.id} align={column.align}>
+                              {
+                                  column.id === "overallStatus" 
+                                    ? (
+                                    <span
+                                      className={`${getColorStatus(row.overallStatus)}-circle`}
+                                    ></span>
+                                    ) : ""
+                                }
+                                {
+                                  (column.id === "weekEnding")? row.weekEnding : ""  
+                                }
+                                {
+                                  (column.id === "user")? row.user : ""
+                                }
+                                {
+                                  (column.id === "project")? row.project.projectName : ""
+                                     
+                                }
+                                <br/>
+                                 <sub className="subText">
+                                  {
+                                  column.id === "project"
+                                  ? row.subTeam
+                                  : column.id === "client"
+                                  ? row.client.clientName
+                                    : ""
+                                }
+                                </sub>
+                            </TableCell>
+                          );
+                        })}
                   </TableRow>
                 );
               })}
@@ -208,7 +106,7 @@ const ProjectList: React.FC = () => {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={props.reports.length}
         rowsPerPage={rowsPerPage}
         page={page}
         backIconButtonProps={{
@@ -221,6 +119,65 @@ const ProjectList: React.FC = () => {
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
     </>
-  );
+  );  
 };
 export default ProjectList;
+
+interface Column {
+  id:
+    | "project"
+    | "client"
+    | "weekEnding"
+    | "overallStatus"
+    | "subTeam"
+    | "user";
+  label: string;
+  minWidth?: number;
+  isDisplay: boolean;
+  align?: "center"| "right";
+  format?: (value: Date) => string;
+}
+
+const columns: Column[] = [
+  {
+    id: "project",
+    label: "Project\u00a0Name",
+    minWidth: 200,
+    isDisplay: true
+  },
+  { id: "client", label: "Client", minWidth: 100, isDisplay: true },
+ {
+    id: "weekEnding",
+    label: "Week\u00a0Ending",
+    minWidth: 120,
+    align: "center",
+    isDisplay: true,
+    format: (value: Date) => value.toString()
+  },
+  {
+    id: "user",
+    label: "Offshore\u00a0Team\u00a0Lead",
+    minWidth: 200,
+    isDisplay: true
+  },
+  {
+    id: "overallStatus",
+    label: "Overall Status",
+    minWidth: 80,
+    align: "center",
+    isDisplay: true
+  }
+];
+
+const getColorStatus = (status:string) => {
+  switch (status) {
+    case "Good":
+        return "green"
+    case "Fair":
+        return "yellow"
+    case "Poor":
+        return "red"
+    default:
+      return "";
+  }
+}

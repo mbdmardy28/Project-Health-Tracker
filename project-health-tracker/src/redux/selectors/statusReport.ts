@@ -1,38 +1,47 @@
 
 import { createSelector } from "reselect";
-import statusReportReducer from "../reducers/statusReport";
-import { rootState } from "../states/genericState";
+import { rootState, EntityState } from "../states/genericState";
+import { StatusReport } from "../../common/model/statusreport";
 import { Client } from "../../common/model/client";
 import { Project } from "../../common/model/project";
+import { StatusReportQuery } from "../../common/model/StatusReportQuery";
 
-const projects = (state: rootState) => state.entities.clients;
+const projects = (state: rootState) => state.entities.projects;
 const clients = (state:rootState) => state.entities.clients;
 const statusReports = (state:rootState) => state.entities.statusReports;
+
 export const getStatusReportSelector = createSelector(
     projects, clients, statusReports,(projects, clients, reports) => {
         let reportsQuery: StatusReportQuery[] = [];
         for (const [key, value] of Object.entries(reports)) {
-            let report = {} as StatusReportQuery;
-            report.id = value.id;
-            report.overallStatus = value.overallStatus;
-            report.client = clients[value.client];
-            reportsQuery.push(report);
-          }
-        console.log("selector proj",projects);
-        console.log("selector client",clients);
-        console.log("selector reports",reports);
-          return reportsQuery;
-
-    
+            const report = statusReportMapper(value, clients, projects);
+            reportsQuery.push(report,);
+        }
+        return reportsQuery;
     });
 
+const statusReportMapper  = (statusReport: StatusReport
+  , clients: EntityState<Client>
+  , projects: EntityState<Project>): StatusReportQuery => {
 
+      const { id, overallStatus, submittedDate, client, project } = statusReport;
+      let report = {} as StatusReportQuery;
+      let clientQuery = {} as Client;
+      let projectQuery = {} as Project;
+      report.id = id;
+      report.overallStatus = overallStatus;
+      report.submittedDate = submittedDate;
+      report.user = statusReport.user;
+      report.subTeam = statusReport.subTeam;
+      report.weekEnding = statusReport.weekEnding;
+      clientQuery.id = clients[client].id;
+      clientQuery.clientName = clients[client].clientName;
+      report.client = clientQuery;
 
-    export interface StatusReportQuery {
-        id:number
-        submittedDate: string
-        overallStatus:string
-        weekEnding: Date
-        client: Client
-        project: Project
-    }    
+      projectQuery.id = projects[project].id;
+      projectQuery.projectName = projects[project].projectName;
+      report.project = projectQuery;
+     return report;
+}
+
+   
