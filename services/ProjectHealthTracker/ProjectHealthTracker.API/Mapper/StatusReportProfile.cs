@@ -16,7 +16,13 @@ namespace ProjectHealthTracker.API.Mapper
                 .ForMember(dest => dest.Id, src => src.MapFrom(s => s.Id))
                 .ForMember(dest => dest.ProjectName, src => src.MapFrom(s => s.Name));
 
-            CreateMap<Client, ClientDto>()
+            {
+                CreateMap<Project, ProjectDto>()
+                    .ForMember(dest => dest.Id, src => src.MapFrom(s => s.Id))
+                    .ForMember(dest => dest.ProjectName, src => src.MapFrom(s => s.Name));
+
+
+                CreateMap<Client, ClientDto>()
                .ForMember(dest => dest.Id, src => src.MapFrom(s => s.Id))
                .ForMember(dest => dest.ClientName, src => src.MapFrom(s => s.Name));
              
