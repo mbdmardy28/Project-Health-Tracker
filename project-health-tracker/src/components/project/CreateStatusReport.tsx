@@ -13,11 +13,14 @@ import {
       } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import ProjectTagList from "./ProjectTagList";
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { addStatusReport } from '../../redux/actions/statusReport';
 import { NewStatusReport } from '../../common/persistence/newStatusReport';
-
+import { getClientsSelector } from '../../redux/selectors/clients';
+import { ClientQuery } from '../../common/persistence/clientQuery';
+import { getProjectsSelector } from '../../redux/selectors/project';
+import { NavLink, useLocation } from 'react-router-dom';
 
 
 const CreateStatusReport = () => {
@@ -28,7 +31,7 @@ const CreateStatusReport = () => {
         new Date('2014-08-18T21:11:54'),
     );
     const [values, setValues] = useState({
-        projectName: 0,
+        projectId: 0,
         overallStatus: '',
         budget: '',
         schedule: '',
@@ -37,7 +40,7 @@ const CreateStatusReport = () => {
         clientResources: '',
         executiveSummary: '',
         issues:'',
-        risk: ''
+        risks: ''
     });
 
     const handleChange = (name: string) => (event: { target: { value: any; }; }) => {
@@ -47,13 +50,20 @@ const CreateStatusReport = () => {
     const handleDateChange = (date: Date | null) => {
         setSelectedDate(date);
     };
+    const initialCLients: ClientQuery[] = [];
+    const selectProject = useSelector(getProjectsSelector);
+    const [projects, setProjects] = useState(initialCLients);
+    useEffect(() => {
+        setProjects(selectProject);
+    })
     
     const dispatch = useDispatch();
+    const location = useLocation();
     const saveReport = () => {
         const report: NewStatusReport =  {
-           projectId: 0,
+           projectId: 1,
            overallStatus: values.overallStatus,
-           weekEnding: selectedDate as Date,
+           weekEnding: new Date(),//selectedDate as Date,
            budgetStatus: values.budget,
            scheduleStatus: values.schedule,
            scopeStatus: values.scope,
@@ -61,10 +71,9 @@ const CreateStatusReport = () => {
            clientResourcesStatus: values.clientResources,
            executiveSummary: values.executiveSummary,
            issues: values.issues,
-           risks: values.risk,
-           tags: ProjectTags
+           risks: values.risks
        };
-      dispatch(addStatusReport(report))
+      dispatch(addStatusReport(report));
     };
 
     return (
@@ -74,19 +83,19 @@ const CreateStatusReport = () => {
                     <Grid item xs={4}>
                         <TextField fullWidth 
                             select
-                            label="Project Name"
-                            value={values.projectName}
-                            onChange={handleChange('projectName')}
+                            label=""
+                            value={values.projectId}    
+                            onChange={handleChange('projectId')}
                             SelectProps={{
                             native: true,
                             }}
                             margin="dense"
                             variant="outlined"
                         >
-                            <option value=" "> -- select -- </option>
-                            {projectNames.map(option => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
+                            <option value=""> -- select -- </option>
+                            {projects.map(option => (
+                            <option key={option.id} value={option.id}>
+                                {option.name}
                             </option>
                             ))}
                         </TextField>
@@ -132,7 +141,6 @@ const CreateStatusReport = () => {
                 <Grid container>
                     <Grid item xs={12}>
                         <TextField fullWidth
-                            value=""
                             label="Executive Summary"
                             multiline
                             rows="4"
@@ -247,7 +255,6 @@ const CreateStatusReport = () => {
                 <Grid container>
                     <Grid item xs={12}>
                         <TextField fullWidth
-                            value=""
                             label="Issues"
                             multiline
                             rows="4"
@@ -260,7 +267,6 @@ const CreateStatusReport = () => {
                 <Grid container>
                     <Grid item xs={12}>
                         <TextField fullWidth
-                            value=""
                             label="Risks"
                             multiline
                             rows="4"
@@ -289,8 +295,7 @@ const CreateStatusReport = () => {
         </Container>
     );
   }
-
-  export default CreateStatusReport;
+export default CreateStatusReport;
 
 const projectNames = [
     { value: 'Taxation', label: 'Taxation'}, 
@@ -299,7 +304,8 @@ const projectNames = [
     { value: 'Backlog', label: 'Backlog'}
 ];
 const status = [
-    { value: 'green', label: 'Good'}, 
-    { value: 'yellow', label: 'Fair'},
-    { value: 'red', label: 'Poor'}
+    { value: 'Good', label: 'Good'}, 
+    { value: 'Fair', label: 'Fair'},
+    { value: 'Poor', label: 'Poor'}
 ];
+

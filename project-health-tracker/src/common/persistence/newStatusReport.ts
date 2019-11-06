@@ -10,5 +10,4 @@ export interface NewStatusReport {
     executiveSummary: string,
     issues: string,
     risks: string
-    tags: string[]
 }

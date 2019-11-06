@@ -30,8 +30,7 @@ const UserContainer: React.FC = () => {
             <Button variant="contained" color="primary" onClick={handleChangeDate}>
               <NavLink to="/create-status-report" >
                 <AddBoxIcon /> New Status Report
-              </NavLink>  
-              
+              </NavLink> 
             </Button>
           </Toolbar>
         </Grid>
