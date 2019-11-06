@@ -48,6 +48,8 @@ namespace ProjectHealthTracker.API.Controllers
             
             var statusReport = _mapper.Map<StatusReport>(statusReportDto);
             statusReport.SubmittedDate = DateTime.Now;
+            statusReport.UserId = 1;
+            statusReport.SubTeam = "Team Jupiter";
             _context.StatusReports.Add(statusReport);
             await  _context.SaveChangesAsync();
 
