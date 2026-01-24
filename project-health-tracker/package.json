@@ -15,7 +15,7 @@
     "@types/react-router-dom": "^5.1.0",
     "date-fns": "^2.6.0",
     "downshift": "^3.3.5",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.23",
     "material-ui-pickers": "^2.2.4",
     "normalizr": "^3.4.1",
     "react": "^16.10.0",
